@@ -12,7 +12,7 @@ import br.com.ivanfsilva.ofertasajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
 	
-	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LINK %:site%")
+	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LIKE %:site%")
 	List<String> findSitesByTermo(@Param("site") String site);
 	
 	@Transactional(readOnly = false)
