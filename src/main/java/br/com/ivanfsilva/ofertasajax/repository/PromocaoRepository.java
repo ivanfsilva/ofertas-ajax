@@ -1,5 +1,7 @@
 package br.com.ivanfsilva.ofertasajax.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.ivanfsilva.ofertasajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
+	
+	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LINK %:site%")
+	List<String> findSitesByTermo(@Param("site") String site);
 	
 	@Transactional(readOnly = false)
 	@Modifying
