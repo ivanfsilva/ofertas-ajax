@@ -1,6 +1,12 @@
 
 // efeito infinite scroll
 
+$(document).ready(function() {
+	$("#loader-img").hide();
+	$("#fim-btn").hide;
+});
+
+
 var pageNumber = 0;
 
 $(window).scroll(function(){
@@ -24,8 +30,25 @@ function loadByScrollBar(pageNumber) {
 		data: {
 			page: pageNumber
 		},
+		beforeSend: function(){
+			$("#loader-img").show();
+		},
 		success: function(response) {
 			console.log("resposta > ", response);
+			if(response.lengh > 150) {
+				$(".row").fadeIn(250, function(){
+					$(this).append(response);
+				});
+			} else {
+				$("#fim-btn").show;
+				$("#loader-img").remove("loader");
+			}
+		},
+		error: function(xhr){
+			alert("Ops, ocorreu um erro: " + xhr.status + " - " + xhr.statusText);
+		},
+		complete: function() {
+			$("#loader-img").hide();
 		}
 	})
 }
