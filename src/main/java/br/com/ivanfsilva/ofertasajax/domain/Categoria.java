@@ -10,7 +10,8 @@ import javax.persistence.*;
 @Table(name = "categorias")
 public class Categoria implements Serializable {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "titulo", nullable = false, unique = true)
