@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import br.com.ivanfsilva.ofertasajax.service.PromocaoDataTablesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,19 @@ public class PromocaoController {
     private PromocaoRepository promocaoRepository;
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+
+	// DATATABLES
+	@GetMapping("/tabela")
+	public String showTabela() {
+		return "promo-datatables";
+	}
+
+	@GetMapping("/datatables/server")
+	public ResponseEntity<?> datatables(HttpServletRequest request) {
+		Map<String, Object> data = new PromocaoDataTablesService()
+				.execute(promocaoRepository, request);
+		return ResponseEntity.ok(data);
+	}
 	
 	@GetMapping("/site")
 	public ResponseEntity<?> autoCompleteByTermo(@RequestParam("termo") String termo) {

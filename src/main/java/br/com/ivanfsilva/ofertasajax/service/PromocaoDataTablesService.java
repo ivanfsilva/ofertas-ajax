@@ -1,6 +1,8 @@
 package br.com.ivanfsilva.ofertasajax.service;
 
+import br.com.ivanfsilva.ofertasajax.domain.Promocao;
 import br.com.ivanfsilva.ofertasajax.repository.PromocaoRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,19 +31,26 @@ public class PromocaoDataTablesService {
 
         Pageable pageable = PageRequest.of(current, length, direction, column);
 
+        Page<Promocao> page = queryBy(repository, pageable);
+
         Map<String, Object> json = new LinkedHashMap<>();
         json.put("draw", null);
-        json.put("recordsTotal", 0);
-        json.put("recordsFiltered", 0);
-        json.put("data", null);
+        json.put("recordsTotal", page.getTotalElements());
+        json.put("recordsFiltered", page.getTotalElements());
+        json.put("data", page.getContent());
 
         return json;
+    }
+
+    private Page<Promocao> queryBy(PromocaoRepository repository, Pageable pageable) {
+
+        return repository.findAll(pageable);
     }
 
     private Sort.Direction orderBy(HttpServletRequest request) {
         String order = request.getParameter("order[0][dir]");
         Sort.Direction sort = Sort.Direction.ASC;
-        If(order.equalsIgnoreCase("desc")) {
+        if(order.equalsIgnoreCase("desc")) {
             sort = Sort.Direction.DESC;
         }
         return null;
