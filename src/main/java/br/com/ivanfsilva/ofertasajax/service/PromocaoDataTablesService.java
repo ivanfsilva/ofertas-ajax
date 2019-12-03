@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -48,6 +49,12 @@ public class PromocaoDataTablesService {
         if (search.isEmpty()) {
             return repository.findAll(pageable);
         }
+
+        if (search.matches("^[0-9]+([.,][0-9]{2})?$")) {
+            search = search.replace(",", ".");
+            return repository.findByPreco(new BigDecimal(search), pageable);
+        }
+
         return repository.findByTituloOrSiteOrCategoria(search, pageable);
     }
 
