@@ -71,7 +71,7 @@ public class PromocaoDataTablesService {
         if(order.equalsIgnoreCase("desc")) {
             sort = Sort.Direction.DESC;
         }
-        return null;
+        return sort;
     }
 
     private String columnName(HttpServletRequest request) {
