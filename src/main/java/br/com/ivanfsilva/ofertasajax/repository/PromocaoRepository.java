@@ -1,8 +1,6 @@
 package br.com.ivanfsilva.ofertasajax.repository;
 
-import java.math.BigDecimal;
-import java.util.List;
-
+import br.com.ivanfsilva.ofertasajax.domain.Promocao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,9 +9,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.ivanfsilva.ofertasajax.domain.Promocao;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
+
+    @Query("select count(p.id) as count, max(p.dtCadastro) as lastDate "
+            + "from Promocao p where p.dtCadastro > :data")
+    Map<String, Object> totalAndUltimaPromocaoByDataCadastro(@Param("data") LocalDateTime data);
+
+    @Query("select p.dtCadastro from Promocao p")
+    Page<LocalDateTime> findUltimaDataDePromocao(Pageable pageable);
 
 	@Query("SELECT p FROM Promocao p WHERE p.preco = :preco")
 	Page<Promocao> findByPreco(@Param("preco")BigDecimal preco, Pageable pageable);
