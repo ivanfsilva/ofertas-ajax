@@ -89,6 +89,7 @@ public class PromocaoController {
 		List<String> sites = promocaoRepository.findSitesByTermo(termo);
 		return ResponseEntity.ok(sites);
 	}
+	
 	@GetMapping("/site/list")
 	public String listarPorSite(@RequestParam("site") String site, ModelMap model) {
 		Sort sort = new Sort(Sort.Direction.DESC, "dtCadastro");
