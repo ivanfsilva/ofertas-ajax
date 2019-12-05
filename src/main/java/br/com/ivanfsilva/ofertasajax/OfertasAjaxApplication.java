@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
-@ImportResource(locations = "classpath: dwr-spring.xml")
+@ImportResource(locations = "classpath:dwr-spring.xml")
 @SpringBootApplication
 public class OfertasAjaxApplication {
 
